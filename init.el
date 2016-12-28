@@ -50,7 +50,9 @@ Return a list of installed packages or nil for every skipped package."
                           'projectile
                           'auto-complete
                           'flycheck
-                          'magit)
+                          'magit
+                          'php-mode
+                          'elpy)
 
 ;; GUI settings
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))         ; Disable the menu bar
@@ -113,8 +115,13 @@ inhibit-startup-echo-area-message t)
 ;; Evil mode vim like search highlighting
 (global-evil-search-highlight-persist t)
 
+;; Python 
+(elpy-enable)
+(setq elpy-rpc-python-command "/usr/bin/python3")
+(setq elpy-rpc-backend "jedi")  
+
 ; Enable global flyechecking (file linter plugin)
-( add-hook 'after-init-hook #'global-flycheck-mode )
+; ( add-hook 'after-init-hook #'global-flycheck-mode )
 
 ;; Theme settings
 (load-theme 'gruvbox t)
