@@ -42,17 +42,23 @@ Return a list of installed packages or nil for every skipped package."
                           'evil-leader
                           'evil-search-highlight-persist
                           'evil-surround
+                          'evil-nerd-commenter
                           'helm
                           'highlight-indentation
                           'powerline
                           'neotree
+                          'find-file-in-project
                           'hlinum
                           'projectile
                           'auto-complete
                           'flycheck
                           'magit
                           'php-mode
-                          'elpy)
+                          'elpy
+                          'rainbow-delimiters
+                          'js2-mode
+                          'popup
+)
 
 ;; GUI settings
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))         ; Disable the menu bar
@@ -66,6 +72,9 @@ inhibit-startup-echo-area-message t)
 
 (custom-set-faces                                        ; Custom font
  '(default ((t (:height 120 :family "Inconsolata"))))) 
+
+(custom-set-variables                                    ; Run emacs in fullscreen mode
+ '(initial-frame-alist (quote ((fullscreen . maximized)))))
 
 ;; Backup files settings
 (setq make-backup-files nil)                             ; Stop creating backup~ files
@@ -81,28 +90,40 @@ inhibit-startup-echo-area-message t)
 (show-paren-mode 1)                            ; Highlight parenthesis pairs
 (setq blink-matching-paren-distance nil)       ; Blinking parenthesis
 
+;; Disable lines truncate
+(setq-default truncate-lines 1)
+
+;; Emacs will not automatically add new lines
+(setq next-line-add-newlines nil)
+
 ;; Calendar settings
 (setq european-calendar-style 't)              ; European style calendar
 (setq calendar-week-start-day 1)               ; Week starts monday
 
+;; auto complete default
+(global-auto-complete-mode t)
 (ac-config-default)
+
 (powerline-default-theme)
 
 ;; Evil mode
 (evil-mode t)                   ; Enable evil mode 
-
+(global-evil-surround-mode 1)   ; Enavle the surround mode
 (global-evil-leader-mode)       ; Enable evil leader key 
 (evil-leader/set-leader "č")    ; Set the evil mode leader key
 
 ;; Mappings with leader
 (evil-leader/set-key
   "ig" 'highlight-indentation-mode  ; Toggle indent guides with leader+ig
-  "b"  'switch-to-buffer
-  "lb" 'helm-buffers-list
-  "nt" 'neotree-toggle
+  "b"  'helm-buffers-list
+  "m"  'neotree-toggle
   "ff" 'projectile-find-file
-  "o"  'find-file
+  "o"  'helm-find-files
+  "rb" 'rainbow-delimiters-mode
+  "ci" 'evilnc-comment-or-uncomment-lines
 )
+
+(setq case-fold-search t)   ; make searches case insensitive
 
 ;; Evil mode vim colors for the cursor
 (setq evil-emacs-state-cursor '("red" box))
@@ -116,15 +137,43 @@ inhibit-startup-echo-area-message t)
 (global-evil-search-highlight-persist t)
 
 ;; Python 
-(elpy-enable)
+(when (require 'elpy nil t)
+  (elpy-enable))
 (setq elpy-rpc-python-command "/usr/bin/python3")
 (setq elpy-rpc-backend "jedi")  
+; (elpy-use-ipython "/usr/bin/ipython3")
+
+;; Neo Tree
+(setq projectile-switch-project-action 'neotree-projectile-action)
+  (add-hook 'neotree-mode-hook
+    (lambda ()
+      (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+      (define-key evil-normal-state-local-map (kbd "I") 'neotree-hidden-file-toggle)
+      (define-key evil-normal-state-local-map (kbd "z") 'neotree-stretch-toggle)
+      (define-key evil-normal-state-local-map (kbd "R") 'neotree-refresh)
+      (define-key evil-normal-state-local-map (kbd "m") 'neotree-rename-node)
+      (define-key evil-normal-state-local-map (kbd "c") 'neotree-create-node)
+      (define-key evil-normal-state-local-map (kbd "d") 'neotree-delete-node)
+
+      (define-key evil-normal-state-local-map (kbd "s") 'neotree-enter-vertical-split)
+      (define-key evil-normal-state-local-map (kbd "S") 'neotree-enter-horizontal-split)
+
+      (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
 
 ; Enable global flyechecking (file linter plugin)
 ; ( add-hook 'after-init-hook #'global-flycheck-mode )
 
 ;; Theme settings
 (load-theme 'gruvbox t)
+
+; Load the theme in deamon mode
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+        (lambda (frame)
+            (select-frame frame)
+            (load-theme 'gruvbox t)))
+    (load-theme 'gruvbox t))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
