@@ -57,6 +57,8 @@ Return a list of installed packages or nil for every skipped package."
                           'flycheck                             ; Linter
                           'magit                                ; Git interaction
                           'php-mode
+                          'gruvbox-theme                        ; Gruvbox theme
+                          'use-package                          ; Control package loading
                           'elpy
                           'js2-mode
                           'popup
