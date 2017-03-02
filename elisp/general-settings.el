@@ -25,13 +25,13 @@ inhibit-startup-echo-area-message t)
     (add-hook 'after-make-frame-functions
         (lambda (frame)
             (select-frame frame)
-            (load-theme 'gruvbox t)))
-    (load-theme 'gruvbox t))
+            (load-theme 'dracula t)))
+    (load-theme 'dracula t))
 
 (global-linum-mode 1)                                    ; Display line numbers
 (setq linum-format "%4d")                                ; Format the line numbers
 
-(setq case-fold-search t)   ; make searches case insensitive
+(setq case-fold-search t)                                ; Make searches case insensitive
 
 ;; Backup files settings
 ;------------------------------------------------------------------------------
@@ -42,20 +42,17 @@ inhibit-startup-echo-area-message t)
 ;------------------------------------------------------------------------------
 (setq-default indent-tabs-mode nil)                      ; Use spaces instead of tabs
 (setq tab-width 4)                                       ; Length of tab is 4 SPC
-; (setq truncate-partial-width-windows nil)                ; Don't truncate long lines
 (setq next-line-add-newlines t)                          ; Add newline when at buffer end
 (setq require-final-newline 't)                          ; Always newline at end of file
 (global-linum-mode 1)                                    ; Show line numbers on buffers
 (show-paren-mode 1)                                      ; Highlight parenthesis pairs
 (setq blink-matching-paren-distance nil)                 ; Blinking parenthesis
 
-;; Disable lines truncate
-(setq-default truncate-lines 1)
+(setq-default truncate-lines 1)                          ; Disable lines truncate
 
-;; Emacs will not automatically add new lines
- (setq next-line-add-newlines nil)
+(setq next-line-add-newlines nil)                        ; Emacs will not automatically add new lines
 
 ;; Calendar settings
 ;------------------------------------------------------------------------------
-(setq european-calendar-style 't)              ; European style calendar
-(setq calendar-week-start-day 1)               ; Week starts on Monday
+(setq european-calendar-style 't)                        ; European style calendar
+(setq calendar-week-start-day 1)                         ; Week starts on Monday

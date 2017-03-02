@@ -9,9 +9,45 @@
 ;; Package management section
 (require 'package)
 
-; Sources of emacs packages
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+; List the packages you want
+(setq package-list '(evil                                 ; Vim mode in emacs
+                     evil-leader                          ; Vim leader key mode
+                     evil-surround                        ; Vim like surround
+                     evil-search-highlight-persist        ; Higlight search like Vim
+                     evil-nerd-commenter                  ; Easy comment
+                     dracula-theme                        ; Theme dracula
+                     gruvbox-theme                        ; Theme gruvbox
+                     auto-complete                        ; Autocompletion
+                     powerline                            ; Vim style powerline
+                     yasnippet                            ; Snippets
+                     flycheck                             ; Linters
+                     autopair                             ; Auto pair braces and quotes 
+                     highlight-indent-guides              ; Indent guidelines
+                     rainbow-delimiters                   ; Rainbow colors
+                     neotree                              ; NerdTree clone
+                     avy                                  ; Vim easy motion clone
+                     projectile                           ; Projectile
+                     helm                                 ; Helm
+                     helm-ag                              ; Ag (silver searcher) in helm
+
+                     ;Modes
+                     cc-mode                              ; Mode for c
+                     php-mode                             ; Mode for php
+                     js2-mode                             ; Mode for javascript
+                     python-mode
+                     jedi                                 ; Autocomplete for python
+                     haskell-mode
+
+                     ;Git
+                     git-gutter                           ; Git changes
+                     magit                                ; Git interaction
+                     ))
+
+; Package repositories
+(add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t) 
 
 ; Activate all the packages 
 (package-initialize)
@@ -20,56 +56,20 @@
 (unless package-archive-contents
 (package-refresh-contents))
 
-; Ensure that required packages are installed
-(defun ensure-package-installed (&rest packages)
-  "Assure every package is installed, ask for installation if it’s not.
+; Install all missing packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+(package-install package)))
 
-Return a list of installed packages or nil for every skipped package."
-  (mapcar
-   (lambda (package)
-     (if (package-installed-p package)
-         nil
-       (if (y-or-n-p (format "Package %s is missing. Install it? " package))
-           (package-install package)
-         package)))
-   packages))
-
-; Make sure to have downloaded archive description.
-(or (file-exists-p package-user-dir)
-    (package-refresh-contents))
-
-; List of required packages
-(ensure-package-installed 'evil                                 ; Vim mode in emacs
-                          'evil-leader                          ; Vim leader key mode
-                          'evil-surround                        ; Vim like surround
-                          'evil-search-highlight-persist        ; Higlight search like Vim
-                          'evil-nerd-commenter                  ; Easy comment
-                          'powerline                            ; Vim style powerline
-                          'helm                                 ; Helm
-                          'projectile                           ; Projectile
-                          'highlight-indentation                ; Indent guidelines
-                          'neotree                              ; NerdTree clone
-                          'rainbow-delimiters                   ; Rainbow colors
-                          'autopair                             ; Auto parenthesis
-                          'avy                                  ; Vim easy motion clone
-                          'git-gutter                           ; Git changes
-                          'auto-complete                        ; Auto-complete functionality
-                          'flycheck                             ; Linter
-                          'magit                                ; Git interaction
-                          'php-mode
-                          'gruvbox-theme                        ; Gruvbox theme
-                          'use-package                          ; Control package loading
-                          'elpy
-                          'js2-mode
-                          'popup
-                          'ac-helm
-                          'web-mode
-                          ; 'ac-php
-                          'helm-ag
-)
+; ; List of required packages
+;                           ; 'use-package                          ; Control package loading
+;                           ; 'popup
+;                           ; 'web-mode
+;                           ; 'ac-php
+; )
 
 ;; Add elisp conf files to path
 (add-to-list 'load-path "~/.emacs.d/elisp")
 (load-library "general-settings")
 (load-library "modes")
-(load-library "custom")
+; (load-library "custom")
