@@ -1,10 +1,10 @@
-auto-save-list
-backups
+auto-save-list/
+backups/
 *~
 .places
 session.*
 tramp
-elpa
+elpa/
 swank
 emms
 site-lisp/adventur-mode
