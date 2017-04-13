@@ -77,5 +77,7 @@
 ; Add elisp conf files to path
 (add-to-list 'load-path "~/.emacs.d/elisp")
 (load-library "general-settings")
+(load-library "functions")
 (load-library "modes")
 (load-library "custom")
+(load-library "zeal-at-point")
