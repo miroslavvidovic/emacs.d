@@ -1,11 +1,3 @@
-;------------------------------------------------------------------------------
-;
-; Miroslav Vidović
-;
-; emacs configuration
-;
-;------------------------------------------------------------------------------
-
 ;; Package management section
 (require 'package)
 
@@ -21,18 +13,14 @@
 
 ;; List of used packages
 (defvar package-list
-    '(evil                                 ; Vim mode in emacs
-      evil-leader                          ; Vim leader key mode
-      evil-surround                        ; Vim like surround
-      evil-search-highlight-persist        ; Higlight search like Vim
-      evil-nerd-commenter                  ; Easy comment
+    ;; Evil stuff
+    '(evil                                 ;; vim mode for emacs
+      evil-leader                          ;; use a leader key like in vim
+      evil-surround                        ;; surround just like in vim
+      evil-search-highlight-persist        ;; higlight when searching
+      evil-nerd-commenter                  ;; comment/uncomment code
 
-      ; Themes
-      dracula-theme                        ; Theme dracula
-      gruvbox-theme                        ; Theme gruvbox
-      zenburn-theme                        ; Theme zenburn
-
-      autopair                             ; Auto pair braces and quotes 
+      autopair                             ;; auto pair braces and quotes
       auto-complete                        ; Autocompletion
       spaceline                            ; Statusline from spacemacs
       yasnippet                            ; Snippets
@@ -67,7 +55,7 @@
       clojure-mode-extra-font-locking    ;; extra syntax highlighting for clojure
       cider                              ;; integration with a Clojure REPL
 
-      ; Git
+      ;; Git
       git-gutter                         ;; display git diff in gutter
       magit                              ;; interact with git from emacs
       git-timemachine                    ;; step through git history
@@ -77,25 +65,43 @@
 ;; Load and activate emacs packages
 (package-initialize)
 
-; Update local package index
+;; Update the local package index
 (unless package-archive-contents
     (package-refresh-contents))
 
-; Install all missing packages
+;; Install all missing packages
 (dolist (package package-list)
     (unless (package-installed-p package)
 (package-install package)))
 
-; Add elisp conf files to path
-(add-to-list 'load-path "~/.emacs.d/elisp")
+;; Keep emacs Custom-settings in a separate file
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file)
+
+;; Add a directory to the load path so that when things are `loaded`
+;; below, Emacs knows where to look for the corresponding file
 (add-to-list 'load-path "~/.emacs.d/settings")
+(add-to-list 'load-path "~/.emacs.d/elisp")
+
+;; These settings include backup files settings, date formats
+;; and other hard to categorize customizations
 (load-library "general-settings")
+
+;; These settings change the way emacs looks and disable/enable
+;; some user interface elements
 (load-library "user-interface")
+
+;; Make editing a bit nicer
 (load-library "editing")
+
+;; Custom elisp functions
 (load-library "functions")
+
 (load-library "modes")
-(load-library "custom")
+
+;; Open zeal documentation from emacs
 (load-library "zeal-at-point")
 
-;; language specific settings
+;; Language specific settings
 (load-library "setup-clojure")
+(load-library "setup-sh")
