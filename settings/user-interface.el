@@ -18,6 +18,11 @@
                     :weight 'normal
                     :width 'normal)
 
+;; Custom theme path
+;; user-emacs-directory is ~/.emacs.d
+(setq custom-theme-directory (concat user-emacs-directory "themes"))
+(add-to-list 'custom-theme-load-path custom-theme-directory)
+
 ;; Load the theme 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
