@@ -59,7 +59,7 @@
     (setq evil-replace-state-cursor '("red" bar))
     (setq evil-operator-state-cursor '("red" hollow))
     ;; Keybinding until general is set up
-    ;; Move betewen panes with control-direction like in vim-tmux 
+    ;; Move between panes with control-direction like in vim-tmux 
     :config
     (define-key evil-motion-state-map (kbd "C-h") 'evil-window-left)
     (define-key evil-motion-state-map (kbd "C-j") 'evil-window-down)
@@ -115,16 +115,22 @@
     :ensure t)
 
 ;; Spaceline
-; (use-package spaceline-config
-;     :ensure spaceline
-;     :config
-;     (spaceline-emacs-theme))
+(use-package spaceline-config
+    :ensure spaceline
+    :config
+    (spaceline-emacs-theme))
+
+;; Smart mode line powerline theme
+(use-package smart-mode-line-powerline-theme
+    :disabled
+    :ensure t)
 
 ;; Smart mode line
 (use-package smart-mode-line
     :ensure t
+    :disabled
     :init
-    (setq sml/theme 'dark)
+    (setq sml/theme 'powerline)
     (setq sml/no-confirm-load-theme t)
     :config
     (sml/setup))
@@ -132,7 +138,6 @@
 ;; Alternative to gitgutter and fringe
 (use-package diff-hl
     :ensure t
-    ; :init (global-diff-hl-mode)
     :config
     (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
     (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode)
@@ -142,7 +147,7 @@
 (use-package git-timemachine
     :ensure t)
 
-;; Intaract with git from emacs
+;; Interact with git from emacs
 (use-package magit
     :ensure t)
 
@@ -153,8 +158,9 @@
     :config
     (yas-global-mode 1))
 
-;; Clean whitespaces
+;; Clean white spaces
 (use-package whitespace-cleanup-mode
+    :disabled
     :ensure t)
 
 ;; Syntax checking
@@ -163,7 +169,6 @@
     :general
     (general-nmap :prefix my-leader
                   "e" 'flycheck-list-errors)
-    ; :diminish flycheck-mode
     :config
     (global-flycheck-mode))
 
@@ -229,7 +234,6 @@
 ;; Project interaction
 (use-package projectile
     :ensure t
-    :diminish projectile-mode
     :init 
     (projectile-mode))
 
@@ -258,7 +262,7 @@
                   "ss" 'swiper)
     :config
     (ivy-mode t)
-    ; (setq ivy-use-virtual-buffers t)
+    (setq ivy-use-virtual-buffers t)
     ;; Enable fuzzy matching for results
     (setq ivy-re-builders-alist
           '((t . ivy--regex-fuzzy)))
@@ -316,13 +320,15 @@
     (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
     (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
 
-; ;; Jedi
-; (use-package jedi
-;     :ensure t
-;     :init
-;     (add-hook 'python-mode-hook 'jedi:setup)
-;     :config ;     (setq jedi:complete-on-dot t))
-;     ;; After this run jedi:install-server in emacs
+;; Jedi
+(use-package jedi
+    :ensure t
+    :disabled
+    :init
+    (add-hook 'python-mode-hook 'jedi:setup)
+    :config 
+    (setq jedi:complete-on-dot t))
+    ;; After this run jedi:install-server in emacs
 
 ;; Javascript
 (use-package js2-mode
