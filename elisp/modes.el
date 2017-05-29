@@ -116,19 +116,18 @@
 
 ;; Spaceline
 (use-package spaceline-config
+    :disabled
     :ensure spaceline
     :config
     (spaceline-emacs-theme))
 
 ;; Smart mode line powerline theme
 (use-package smart-mode-line-powerline-theme
-    :disabled
     :ensure t)
 
 ;; Smart mode line
 (use-package smart-mode-line
     :ensure t
-    :disabled
     :init
     (setq sml/theme 'powerline)
     (setq sml/no-confirm-load-theme t)
@@ -221,33 +220,17 @@
 (use-package sr-speedbar
     :ensure t)
 
-;; Helm
-(use-package helm
-    :general
-    (general-nmap :prefix my-leader
-                  "b" 'helm-buffers-list)
-    :ensure t
-    :diminish helm-mode
-    :config
-    (helm-autoresize-mode))
-
 ;; Project interaction
 (use-package projectile
     :ensure t
     :init 
     (projectile-mode))
 
-;; Helm + projectile
-(use-package helm-projectile
+;; Counsel + projectile
+(use-package counsel-projectile
     :ensure t
     :config
-    (helm-projectile-on))
-
-;; Helm ag
-(use-package helm-ag
-    :ensure t
-    :config
-    (setq helm-ag-fuzzy-match t))
+    (counsel-projectile-on))
 
 ;; Used for sorting in ivy
 (use-package flx
@@ -260,6 +243,8 @@
     :general
     (general-nmap :prefix my-leader
                   "ss" 'swiper)
+    (general-nmap :prefix my-leader
+                  "bb" 'ivy-switch-buffer)
     :config
     (ivy-mode t)
     (setq ivy-use-virtual-buffers t)
@@ -275,7 +260,6 @@
                   "a" 'counsel-ag)
     (general-nmap "C-p" 'counsel-find-file)
     ;; Use counsel for M-x
-    ;; faster than helm
     :bind ("M-x" . counsel-M-x))
 
 ;; Line numbers
