@@ -272,7 +272,6 @@
     (ac-config-default)
     (ac-flyspell-workaround)
     (ac-set-trigger-key "TAB")
-    (define-key ac-mode-map (kbd "SPC") 'auto-complete))
 
 ;;; Language specific
 ;; PHP
