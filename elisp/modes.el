@@ -58,13 +58,13 @@
     (setq evil-insert-state-cursor '("red" bar))
     (setq evil-replace-state-cursor '("red" bar))
     (setq evil-operator-state-cursor '("red" hollow))
-    ;; Keybinding until general is set up
     ;; Move between panes with control-direction like in vim-tmux 
+    :general
+    (general-nmap "C-h" 'evil-window-left)
+    (general-nmap "C-j" 'evil-window-down)
+    (general-nmap "C-k" 'evil-window-up)
+    (general-nmap "C-l" 'evil-window-right)
     :config
-    (define-key evil-motion-state-map (kbd "C-h") 'evil-window-left)
-    (define-key evil-motion-state-map (kbd "C-j") 'evil-window-down)
-    (define-key evil-motion-state-map (kbd "C-k") 'evil-window-up)
-    (define-key evil-motion-state-map (kbd "C-l") 'evil-window-right)
     (evil-mode t))
 
 ;; Just like vim surround
@@ -95,15 +95,6 @@
     :diminish smartparens-mode
     :config
     (smartparens-global-mode t))
-
-;; Autocompletion
-(use-package auto-complete
-    :ensure t
-    :init
-    (setq ac-auto-start nil)
-    :config
-    (ac-config-default)
-    (ac-set-trigger-key "TAB"))
 
 ;; Jump to things
 (use-package avy
@@ -240,6 +231,7 @@
 (use-package ivy
     :ensure t
     :init
+    :diminish ivy-mode
     :general
     (general-nmap :prefix my-leader
                   "ss" 'swiper)
@@ -267,6 +259,20 @@
     :ensure t
     :config
     (add-hook 'prog-mode-hook 'nlinum-mode))
+
+;; Autocompletion
+(use-package auto-complete
+    :ensure t
+    :init
+    (setq ac-auto-start nil
+          ac-disable-inline t
+          ac-ignore-case t
+          )
+    :config
+    (ac-config-default)
+    (ac-flyspell-workaround)
+    (ac-set-trigger-key "TAB")
+    (define-key ac-mode-map (kbd "SPC") 'auto-complete))
 
 ;;; Language specific
 ;; PHP
