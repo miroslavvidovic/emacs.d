@@ -230,7 +230,6 @@
 ;; Ivy 
 (use-package ivy
     :ensure t
-    :init
     :diminish ivy-mode
     :general
     (general-nmap :prefix my-leader
@@ -266,12 +265,16 @@
     :init
     (setq ac-auto-start nil
           ac-disable-inline t
-          ac-ignore-case t
-          )
+          ac-ignore-case t)
     :config
     (ac-config-default)
     (ac-flyspell-workaround)
     (ac-set-trigger-key "TAB")
+    (define-key ac-mode-map (kbd "SPC") 'auto-complete))
+
+;; Which key
+(use-package which-key
+    :ensure t)
 
 ;;; Language specific
 ;; PHP
