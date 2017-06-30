@@ -58,7 +58,7 @@
     (setq evil-insert-state-cursor '("red" bar))
     (setq evil-replace-state-cursor '("red" bar))
     (setq evil-operator-state-cursor '("red" hollow))
-    ;; Move between panes with control-direction like in vim-tmux 
+    ;; Move between panes with control-direction like in vim-tmux
     :general
     (general-nmap "C-h" 'evil-window-left)
     (general-nmap "C-j" 'evil-window-down)
@@ -105,12 +105,31 @@
                   "l" 'avy-goto-line)
     :ensure t)
 
+;;; Mode line styling
+
 ;; Spaceline
 (use-package spaceline-config
     :disabled
     :ensure spaceline
     :config
     (spaceline-emacs-theme))
+
+(use-package telephone-line
+    :disabled
+    :ensure t
+    :config
+    (setq telephone-line-lhs
+          '((evil   . (telephone-line-evil-tag-segment))
+            (accent . (telephone-line-vc-segment
+                       telephone-line-erc-modified-channels-segment
+                       telephone-line-process-segment))
+            (nil    . (telephone-line-minor-mode-segment
+                       telephone-line-buffer-segment))))
+    (setq telephone-line-rhs
+          '((nil    . (telephone-line-misc-info-segment))
+            (accent . (telephone-line-major-mode-segment))
+            (evil   . (telephone-line-airline-position-segment))))
+    (telephone-line-mode t))
 
 ;; Smart mode line powerline theme
 (use-package smart-mode-line-powerline-theme
@@ -160,7 +179,16 @@
     (general-nmap :prefix my-leader
                   "e" 'flycheck-list-errors)
     :config
+    (setq flycheck-check-syntax-automatically '(save mode-enabled))
     (global-flycheck-mode))
+
+;; Flycheck tips and hints
+(use-package flycheck-pos-tip
+    :ensure t
+    :config
+    (setq flycheck-pos-tip-timeout 10)
+    (setq flycheck-display-errors-delay 0.5)
+    (flycheck-pos-tip-mode +1))
 
 ;; Undo tree
 (use-package undo-tree
@@ -170,7 +198,7 @@
                   "uv" 'undo-tree-visualize)
     :diminish undo-tree-mode)
 
-;; Indent guides 
+;; Indent guides
 (use-package highlight-indent-guides
     :ensure t
     :general
@@ -214,7 +242,7 @@
 ;; Project interaction
 (use-package projectile
     :ensure t
-    :init 
+    :init
     (projectile-mode))
 
 ;; Counsel + projectile
@@ -227,7 +255,7 @@
 (use-package flx
     :ensure t)
 
-;; Ivy 
+;; Ivy
 (use-package ivy
     :ensure t
     :diminish ivy-mode
@@ -249,7 +277,9 @@
     :general
     (general-nmap :prefix my-leader
                   "a" 'counsel-ag)
-    (general-nmap "C-p" 'counsel-find-file)
+    (general-nmap "C-p" 'counsel-projectile-find-file)
+    (general-nmap :prefix my-leader
+                  "." 'counsel-find-file)
     ;; Use counsel for M-x
     :bind ("M-x" . counsel-M-x))
 
@@ -277,6 +307,16 @@
     :ensure t)
 
 ;;; Language specific
+
+;; Markdown
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
 ;; PHP
 (use-package php-mode
     :ensure t
@@ -318,7 +358,7 @@
     :disabled
     :init
     (add-hook 'python-mode-hook 'jedi:setup)
-    :config 
+    :config
     (setq jedi:complete-on-dot t))
     ;; After this run jedi:install-server in emacs
 
