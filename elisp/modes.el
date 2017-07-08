@@ -210,10 +210,10 @@
 
 ;; Rainbow color delimiters
 (use-package rainbow-delimiters
+    :ensure t
     :general
     (general-nmap :prefix my-leader
-                  "rb" 'rainbow-delimiters-mode)
-    :ensure t)
+                  "rb" 'rainbow-delimiters-mode))
 
 ;; NerdTree clone
 (use-package neotree
@@ -289,18 +289,39 @@
     :config
     (add-hook 'prog-mode-hook 'nlinum-mode))
 
-;; Autocompletion
-(use-package auto-complete
+;; Company mode
+(use-package company
     :ensure t
-    :init
-    (setq ac-auto-start nil
-          ac-disable-inline t
-          ac-ignore-case t)
+    :diminish company-mode
+    :config 
+    (global-company-mode)
+    (setq company-dabbrev-ignore-case t
+          company-show-numbers)
+    (setq company-minimum-prefix-length 2)
+    (setq company-tooltip-limit 10)
+    (setq company-idle-delay 0.4)
+  ;; Cycle possible completions with tab
+  (eval-after-load 'company
+  '(progn
+    ; (define-key company-active-map (kbd "C-n") 'company-select-next)
+    ; (define-key company-active-map (kbd "C-p") 'company-select-previous)
+    ; (define-key company-search-map (kbd "C-n") 'company-select-next)
+    ; (define-key company-search-map (kbd "C-p") 'company-select-previous)
+    ; (define-key company-search-map (kbd "C-t") 'company-search-toggle-filtering))))
+     (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
+     (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
+    (add-hook 'python-mode-hook 'my/python-mode-hook))))
+
+(defun my/python-mode-hook ()
+  (add-to-list 'company-backends 'company-jedi))
+
+(use-package company-quickhelp
+    :ensure t
     :config
-    (ac-config-default)
-    (ac-flyspell-workaround)
-    (ac-set-trigger-key "TAB")
-    (define-key ac-mode-map (kbd "SPC") 'auto-complete))
+    (company-quickhelp-mode 1))
+
+(use-package company-jedi
+    :ensure t)
 
 ;; Which key
 (use-package which-key
@@ -352,16 +373,6 @@
     (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
     (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
 
-;; Jedi
-(use-package jedi
-    :ensure t
-    :disabled
-    :init
-    (add-hook 'python-mode-hook 'jedi:setup)
-    :config
-    (setq jedi:complete-on-dot t))
-    ;; After this run jedi:install-server in emacs
-
 ;; Javascript
 (use-package js2-mode
     :ensure t
@@ -400,7 +411,10 @@
     ;; provides minibuffer documentation for the code you're typing into the repl
     (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
     ;; enable paredit in your REPL
-    (add-hook 'cider-repl-mode-hook 'paredit-mode) )
+    (add-hook 'cider-repl-mode-hook 'paredit-mode)
+    ;; enable fuzzy completion
+    (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
+    (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion))
 
 (use-package paredit
     :ensure t)
