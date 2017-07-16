@@ -89,6 +89,10 @@
     (general-nmap :prefix my-leader
                   "cl" 'evil-search-highlight-persist-remove-all))
 
+;; Ranger file manager
+(use-package ranger
+    :ensure t)
+
 ;; Auto pair braces and quotes
 (use-package smartparens-config
     :ensure smartparens
