@@ -89,10 +89,6 @@
     (general-nmap :prefix my-leader
                   "cl" 'evil-search-highlight-persist-remove-all))
 
-;; Ranger file manager
-(use-package ranger
-    :ensure t)
-
 ;; Auto pair braces and quotes
 (use-package smartparens-config
     :ensure smartparens
@@ -267,7 +263,7 @@
     (general-nmap :prefix my-leader
                   "ss" 'swiper)
     (general-nmap :prefix my-leader
-                  "bb" 'ivy-switch-buffer)
+                  "b" 'ivy-switch-buffer)
     :config
     (ivy-mode t)
     (setq ivy-use-virtual-buffers t)
@@ -299,11 +295,13 @@
     :diminish company-mode
     :config 
     (global-company-mode)
-    (setq company-dabbrev-ignore-case t
-          company-show-numbers)
+    (setq company-dabbrev-ignore-case nil)
+    (setq company-show-numbers)
+    (setq company-selection-wrap-around t)
     (setq company-minimum-prefix-length 2)
     (setq company-tooltip-limit 10)
     (setq company-idle-delay 0.4)
+    (setq company-require-match nil)
   ;; Cycle possible completions with tab
   (eval-after-load 'company
   '(progn
@@ -422,6 +420,16 @@
 
 (use-package paredit
     :ensure t)
+
+;; Shell
+; Associate file wiith sh mode
+(add-to-list 'auto-mode-alist '("\\.bash_profile\\'" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.bash_history\\'" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.sh\\'" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.bash\\'" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.bashrc.local\\'" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.bashrc\\'" . sh-mode))
 
 (provide 'modes)
 
