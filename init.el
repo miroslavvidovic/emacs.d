@@ -35,7 +35,7 @@
 
 ;; Add a directory to the load path so that when things are `loaded`
 ;; below, Emacs knows where to look for the corresponding file
-(add-to-list 'load-path "~/.emacs.d/elisp")
+(add-to-list 'load-path (expand-file-name "elisp" user-emacs-directory))
 
 ;; These settings include backup files settings, date formats
 ;; and other hard to categorize customizations
@@ -50,6 +50,11 @@
 
 ;; Custom elisp functions
 (load-library "functions")
+
+(require 'init-dashboard)
+(require 'init-telephone-line)
+;; Language specific
+(require 'init-sh)
 
 ;; Modes
 (load-library "modes")

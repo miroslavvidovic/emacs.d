@@ -4,17 +4,6 @@
 
 ;;; Code:
 
-;; Extensible and user friendly startup screen
-(use-package dashboard
-    :ensure t
-    :init
-    ;; The title
-    (setq dashboard-banner-logo-title "MIROSLAV VIDOVIĆ")
-    ;; Customize what will be displayed
-    (setq dashboard-items '((recents . 15)))
-    :config
-    (dashboard-setup-startup-hook))
-
 ;; Hide mode info from mode(status) line. Used as a macro in use-package
 (use-package diminish
     :ensure t)
@@ -114,22 +103,6 @@
     :config
     (spaceline-emacs-theme))
 
-(use-package telephone-line
-    :disabled
-    :ensure t
-    :config
-    (setq telephone-line-lhs
-          '((evil   . (telephone-line-evil-tag-segment))
-            (accent . (telephone-line-vc-segment
-                       telephone-line-erc-modified-channels-segment
-                       telephone-line-process-segment))
-            (nil    . (telephone-line-minor-mode-segment
-                       telephone-line-buffer-segment))))
-    (setq telephone-line-rhs
-          '((nil    . (telephone-line-misc-info-segment))
-            (accent . (telephone-line-major-mode-segment))
-            (evil   . (telephone-line-airline-position-segment))))
-    (telephone-line-mode t))
 
 ;; Smart mode line powerline theme
 (use-package smart-mode-line-powerline-theme
@@ -421,15 +394,6 @@
 (use-package paredit
     :ensure t)
 
-;; Shell
-; Associate file wiith sh mode
-(add-to-list 'auto-mode-alist '("\\.bash_profile\\'" . sh-mode))
-(add-to-list 'auto-mode-alist '("\\.bash_history\\'" . sh-mode))
-(add-to-list 'auto-mode-alist '("\\.sh\\'" . sh-mode))
-(add-to-list 'auto-mode-alist '("\\.bash\\'" . sh-mode))
-(add-to-list 'auto-mode-alist '("\\.bashrc.local\\'" . sh-mode))
-(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
-(add-to-list 'auto-mode-alist '("\\.bashrc\\'" . sh-mode))
 
 (provide 'modes)
 
