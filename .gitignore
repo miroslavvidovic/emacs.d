@@ -16,3 +16,5 @@ site-lisp/adventur-mode
 /.sx/
 /ensime/
 *.dat
+projectile-bookmarks.eld
+recentf
