@@ -18,3 +18,5 @@ site-lisp/adventur-mode
 *.dat
 projectile-bookmarks.eld
 recentf
+.python-environments/
+savehist
