@@ -590,7 +590,15 @@
 
 ;; Jedi backend for company
 (use-package company-jedi
-    :ensure t)
+  :ensure t)
+
+;;----------------------------------------------------------------------------
+;;;; HTTP REST
+;;----------------------------------------------------------------------------
+;; HTTP REST client tool for emacs
+
+(use-package restclient
+  :ensure t)
 
 ;;----------------------------------------------------------------------------
 ;;;; MARKDOWN
