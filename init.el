@@ -238,6 +238,8 @@
     (general-nmap "C-j" 'evil-window-down)
     (general-nmap "C-k" 'evil-window-up)
     (general-nmap "C-l" 'evil-window-right)
+    (general-nmap "C-s" 'save-buffer)
+    (general-imap "C-s" 'save-buffer)
 
     (general-nmap :prefix my-leader
                   "gk" 'general-describe-keybindings)
@@ -560,13 +562,16 @@
     :defer 2
     :config 
     (global-company-mode)
-    (setq company-dabbrev-ignore-case nil)
-    (setq company-show-numbers)
-    (setq company-selection-wrap-around t)
-    (setq company-minimum-prefix-length 2)
-    (setq company-tooltip-limit 10)
-    (setq company-idle-delay 0.4)
-    (setq company-require-match nil)
+    (setq company-dabbrev-ignore-case nil
+          company-idle-delay 0.2
+          ;; press M-number to choose candidate
+          company-show-numbers t
+          ;; make previous/next selection in the popup cycles
+          company-selection-wrap-around t
+          company-minimum-prefix-length 2
+          company-tooltip-limit 10
+          company-require-match nil)
+
   ;; Cycle possible completions with tab
   (eval-after-load 'company
   '(progn
@@ -739,6 +744,12 @@
 (add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.bashrc\\'" . sh-mode))
 (setq-local tab-width 4)
+
+;;----------------------------------------------------------------------------
+;;;; CSV
+;;----------------------------------------------------------------------------
+(use-package csv-mode
+  :ensure t)
 
 (provide 'init)
 
